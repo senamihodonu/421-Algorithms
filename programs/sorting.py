@@ -47,7 +47,7 @@ if limit < 100:
 # print("Sorted array")
 sort_type = sys.argv[1].lower()
 start = time.time()
-if sort_type == "insertionsort":
+if sort_type == "insertionsort" or sort_type == "is" :
     InsertionSort(array)
 else:
     print(Usage())
