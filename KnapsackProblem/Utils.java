@@ -1,17 +1,22 @@
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Utils {
 
     // instance variables
-    // private int[][] KnapsackBU_VTable;
-    // private int KnapsackTD_VTable;
-    private int[][] KnapsackBU_DTable;
-    private int optimalSolution;
+    private int[][] KnapsackBU_VTable;
+    private int KnapsackTD_VTable;
+    private static int tdOptimalSolution;
+    // private int[][] KnapsackBU_DTable;
+    // private int buOptimalSolution;
     private ArrayList<Integer> optimalSet;
+
+    public static int buRef = 0;
+    public static int tdRef = 0;
 
     public Utils(){
 
@@ -26,7 +31,7 @@ public class Utils {
      * @return
      * @throws IOException
      */
-    private int[] readFile(String string) throws IOException{
+    int[] readFile(String string) throws IOException{
         File file = new File(string);
         ArrayList<String> fileContent = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
@@ -40,13 +45,21 @@ public class Utils {
         arr = fileContent.stream().mapToInt(i -> Integer.parseInt(i)).toArray();
         return arr;
     }
-    /**
-     * Returns the optimal solution
-     * @return optimalSolution
-     */
-    public int getOptimalSolution(){
-        return optimalSolution;
-    }
+    // /**
+    //  * Returns the optimal solution
+    //  * @return optimalSolution
+    //  */
+    // public int getBUOptimalSolution(){
+    //     return buOptimalSolution;
+    // }
+
+    // /**
+    // * Return 
+    // * @return
+    // */
+    // public int getTDDecisionTable(){
+    //     return tdOptimalSolution;
+    // }
 
     /**
      * Returns the items to include in the knapsack
@@ -56,50 +69,14 @@ public class Utils {
         return optimalSet;
     }
 
-    /**
-     * Return 
-     * @return
-     */
-    public int[][] getDecisionTable(){
-        return KnapsackBU_DTable;
-    }
+    // /**
+    //  * Return 
+    //  * @return
+    //  */
+    // public int[][] getDecisionTable(){
+    //     return KnapsackBU_DTable;
+    // }
     
-    /**
-     * Memoization table
-     * @param n - items
-     * @param w - weight
-     * @param v - value
-     * @param C - Capacity
-     * @return
-     */
-    public int[][] KnapsackBU_VTable(int item, int[] weight, int[] value, int Capacity){
-        int[][] B = new int[item+1][Capacity+1];
-        
-        //for item = 0
-        for(int c = 0; c <= Capacity; c++){ //base case
-            B[0][c] = 0;
-        }
-
-        // for capacity = 0
-        for(int i = 1; i <= item; i++){ //base case
-            B[i][0] = 0;
-        }
-
-        for(int i = 1; i <= item; i++){
-            for(int c = 1; c <= Capacity; c++){
-                if(weight[i-1] > c){
-                    B[i][c] = B[i-1][c];
-                    // System.out.println(B[i][c]);
-                } else {
-                    B[i][c]= Math.max(B[i-1][c], value[i-1]+B[i-1][c-weight[i-1]]);
-                    // System.out.println(B[i][c]);
-                }
-            }
-        }
-        optimalSolution = B[item][Capacity];
-        return B;
-    }
-
     /**
      * Table showing the weight and values to optimize
      * @param w
@@ -124,6 +101,74 @@ public class Utils {
         }
         System.out.println("-----------------------------------");
     }
+
+    // /**
+    //  * Memoization table
+    //  * @param n - items
+    //  * @param w - weight
+    //  * @param v - value
+    //  * @param C - Capacity
+    //  * @return
+    //  */
+    // public int[][] knapsackBU_VTable(int item, int[] weight, int[] value, int Capacity){
+    //     int[][] B = new int[item+1][Capacity+1];
+        
+    //     //for item = 0
+    //     for(int c = 0; c <= Capacity; c++){ //base case
+    //         B[0][c] = 0;
+    //     }
+
+    //     // for capacity = 0
+    //     for(int i = 1; i <= item; i++){ //base case
+    //         B[i][0] = 0;
+    //     }
+
+    //     for(int i = 1; i <= item; i++){
+    //         for(int c = 1; c <= Capacity; c++){
+    //             if(weight[i-1] > c){
+    //                 B[i][c] = B[i-1][c];
+    //                 buRef++;
+    //                 // System.out.println(B[i][c]);
+    //             } else {
+    //                 B[i][c]= Math.max(B[i-1][c], value[i-1]+B[i-1][c-weight[i-1]]);
+    //                 buRef=buRef+2;
+    //                 // System.out.println(B[i][c]);
+    //             }
+    //         }
+    //     }
+    //     buOptimalSolution = B[item][Capacity];
+    //     return B;
+    // }
+    
+    // public int knapsackBU_OptimalValue(int items, int[] w, int[] v, int Capacity) {
+    //     int[][] B = new int[items+1][Capacity+1];
+        
+    //     //for item = 0
+    //     for(int c = 0; c <= Capacity; c++){ //base case
+    //         B[0][c] = 0;
+    //     }
+
+    //     // for capacity = 0
+    //     for(int i = 1; i <= items; i++){ //base case
+    //         B[i][0] = 0;
+    //     }
+
+    //     for(int i = 1; i <= items; i++){
+    //         for(int c = 1; c <= Capacity; c++){
+    //             if(w[i-1] > c){
+    //                 B[i][c] = B[i-1][c];
+    //                 // System.out.println(B[i][c]);
+    //             } else {
+    //                 B[i][c]= Math.max(B[i-1][c], v[i-1]+B[i-1][c-w[i-1]]);
+    //                 // System.out.println(B[i][c]);
+    //             }
+    //         }
+    //     }
+    //     buOptimalSolution = B[items][Capacity];
+    //     return buOptimalSolution;
+    // }
+
+
     /**
      * Decision/Solution table
      * @param n
@@ -132,9 +177,9 @@ public class Utils {
      * @param C
      * @return
      */
-    public int[][] KnapsackBU_DTable(int n, int[] w, int[] v, int C){
+    public int[][] decisionTable(int n, int[] w, int[] v, int C, int[][] valueTable){
         int[][] decisionArray = new int[n+1][C+1];
-        int[][] valueTable = KnapsackBU_VTable(n, w, v, C);
+        // int[][] valueTable = knapsackBU_VTable(n, w, v, C);
         ArrayList<Integer> optimalSetTemp = new ArrayList<>();
 
         int i = n;
@@ -153,6 +198,17 @@ public class Utils {
         optimalSet = optimalSetTemp;
         return decisionArray;
     }
+
+    public void write2File(String filename, String text){
+        try {
+            FileWriter myWriter = new FileWriter(filename);
+            myWriter.write(text);
+            myWriter.close();
+          } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+          }
+    }
     ///////////////////////////////////////////////////////////////////////////////
     // /**
     //  * 
@@ -164,6 +220,7 @@ public class Utils {
     //  * @return
     //  */
     // private int topDownRecursive(int item, int[] weight, int[] value, int Capacity, int valueTable[][]){
+    //     tdRef++;
     //     if(item == 0 || Capacity == 0 ){
     //         return 0;
     //     }
@@ -175,48 +232,99 @@ public class Utils {
     //     if(weight[item-1] > Capacity){
     //         return valueTable[item][Capacity] = topDownRecursive(item-1, weight, value, Capacity, valueTable);
     //     } else 
+    //         // tdRef=tdRef+3;
     //         return valueTable[item][Capacity] = Math.max(value[item-1] + topDownRecursive(item-1, weight, value, Capacity-weight[item-1], valueTable), topDownRecursive(item-1, weight, value, Capacity, valueTable)); 
     // }
 
-    // public int KnapsackTD_VTable(int item, int[] weight, int[] value, int Capacity){
-
+    // public int[][] knapsackTD_VTable(int item, int[] weight, int[] value, int Capacity){
     //     int valueTable[][] = new int[item + 1][Capacity + 1];
-        
     //     for(int i = 0; i < item + 1; i++)  
     //         for(int j = 0; j < Capacity + 1; j++)  
     //             valueTable[i][j] = 0;   
         
     //     int result = topDownRecursive(item, weight, value, Capacity, valueTable);
-    //     KnapsackBU_VTable = valueTable;
+    //     tdOptimalSolution = result;
+    //     return valueTable;  
+    // }
+
+    // public int knapsackTD_OptimalValue(int item, int[] weight, int[] value, int Capacity){
+    //     int valueTable[][] = new int[item + 1][Capacity + 1];
+    //     for(int i = 0; i < item + 1; i++)  
+    //         for(int j = 0; j < Capacity + 1; j++)  
+    //             valueTable[i][j] = 0;   
+        
+    //     int result = topDownRecursive(item, weight, value, Capacity, valueTable);
     //     return result;  
     // }
-    ////////////////////////////////////////////////////////////////////////////////
-    public static void main(String[] args){
-        Utils utils = new Utils();
 
-        try {
-            int[] v = utils.readFile("./tests/v.txt");
-            // System.out.println(Arrays.toString(v));
-            int[] w = utils.readFile("./tests/w.txt");
-            // utils.problemTable(w, v);
+    // public int tdTableReference(){
+    //     return tdRef;
+    // }
 
-            int[][] B = utils.KnapsackBU_VTable(17, w, v, 20);
-            // int[][] D = utils.KnapsackBU_DTable(4, w, v, 5);
-            // int T = utils.KnapsackTD_VTable(4, w, v, 5);
-            // int[][] T2 =  utils.KnapsackBU_VTable;
+    // public int buTableReference(){
+    //     return buRef;
+    // }
 
 
-            for(int i = 0; i < B.length; i++){
-                for(int j = 0; j < B[0].length; j++){
-                    System.out.print(B[i][j] + " ");
-                }
-                System.out.println();
+    /**
+     * Helps print out 2Darray
+     * @param array
+     */
+    public String print2D(int[][] array){
+        String retVal = "";
+        for(int i = 0; i < array.length; i++){
+            for(int j = 0; j < array[0].length; j++){
+                retVal += array[i][j] + " ";
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
+            retVal += "\n";
         }
-
+       return retVal;
     }
+
+    /**
+    * Helps print out 2Darray      
+    * @param array
+     */
+    public void resultSet(ArrayList<Integer> optimalSet, int totalWeight, int optimalValue, int tableReferences){
+        System.out.println();
+        System.out.println("Optimal solution: ");
+        System.out.println(optimalSet); 
+        System.out.println("Total Weight: " + totalWeight);
+        System.out.println("Optimal Value: " + optimalValue);     
+        System.out.println("Number of table references: " + tableReferences);       
+    }
+    
+
+
+    ////////////////////////////////////////////////////////////////////////////////
+    // public static void main(String[] args){
+    //     Utils utils = new Utils();
+
+    //     try {
+    //         int[] v = utils.readFile("./tests/v1.txt");
+    //         // System.out.println(Arrays.toString(v)); 
+    //         int[] w = utils.readFile("./tests/w1.txt");
+    //         // utils.problemTable(w, v);
+
+    //         // int[][] B = utils.KnapsackBU_VTable(17, w, v, 20);
+    //         // int[][] D = utils.KnapsackBU_DTable(4, w, v, 5);
+    //         int T = utils.knapsackTD_OptimalValue(4, w, v, 5);
+    //         int[][] T2 =  utils.knapsackTD_VTable(4, w, v, 5);
+
+    //         System.out.println(T);
+
+    //         for(int i = 0; i < T2.length; i++){
+    //             for(int j = 0; j < T2[0].length; j++){
+    //                 System.out.print(T2[i][j] + " ");
+    //             }
+    //             System.out.println();
+    //         }
+
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+
+    // }
+
 
 }
