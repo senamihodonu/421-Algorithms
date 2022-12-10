@@ -113,10 +113,10 @@ public class KnapsackTD{
         String weights = args[2];
         String values = args[3];
             try {
-                int[] w = utils.readFile(weights);
-                int[] v = utils.readFile(values);
-                int[][] valueTable = td.knapsackTD_VTable(numItems, w, v, capacity);
-                int[][] decisionTable = utils.decisionTable(numItems, w, v, capacity,valueTable);
+                int[] weightArr = utils.readFile(weights);
+                int[] valueArr = utils.readFile(values);
+                int[][] valueTable = td.knapsackTD_VTable(numItems, weightArr, valueArr, capacity);
+                int[][] decisionTable = utils.decisionTable(numItems, weightArr, valueArr, capacity,valueTable);
                 int tableReferences = td.getTableReferences();
                 int optimalValue = td.getOptimalValue();
 

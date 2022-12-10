@@ -55,40 +55,40 @@ public class KnapsackBU{
 
     /**
      * Knapsack buttom up value table
-     * @param n - items
-     * @param w - weight
-     * @param v - value
-     * @param C - Capacity
+     * @param item
+     * @param weight
+     * @param value
+     * @param Capacity
      * @return
      */
     public int[][] knapsackBU_VTable(int item, int[] weight, int[] value, int Capacity){
-        int[][] B = new int[item+1][Capacity+1];
+        int[][] valueTable = new int[item+1][Capacity+1];
         
         //for item = 0
         for(int c = 0; c <= Capacity; c++){ //base case
-            B[0][c] = 0;
+            valueTable[0][c] = 0;
         }
 
         // for capacity = 0
         for(int i = 1; i <= item; i++){ //base case
-            B[i][0] = 0;
+            valueTable[i][0] = 0;
         }
 
         for(int i = 1; i <= item; i++){
             for(int c = 1; c <= Capacity; c++){
                 if(weight[i-1] > c){
-                    B[i][c] = B[i-1][c];
+                    valueTable[i][c] = valueTable[i-1][c];
                     tableReferences++;
-                    // System.out.println(B[i][c]);
+
                 } else {
-                    B[i][c]= Math.max(B[i-1][c], value[i-1]+B[i-1][c-weight[i-1]]);
+                    valueTable[i][c]= Math.max(valueTable[i-1][c], value[i-1]+valueTable[i-1][c-weight[i-1]]);
                     tableReferences=tableReferences+2;
                     // System.out.println(B[i][c]);
                 }
             }
         }
-        optimalValue = B[item][Capacity];
-        return B;
+        optimalValue = valueTable[item][Capacity];
+        return valueTable;
     }
 
     public static void main(String[] args){
@@ -107,10 +107,10 @@ public class KnapsackBU{
         String weights = args[2];
         String values = args[3];
             try {
-                int[] w = utils.readFile(weights);
-                int[] v = utils.readFile(values);
-                int[][] knapsackButtomUp = buttomUp.knapsackBU_VTable(numItems, w, v, capacity);
-                int[][] decisionTable = utils.decisionTable(numItems, w, v, capacity,knapsackButtomUp);
+                int[] weightArr = utils.readFile(weights);
+                int[] valueArr = utils.readFile(values);
+                int[][] knapsackButtomUp = buttomUp.knapsackBU_VTable(numItems, weightArr, valueArr, capacity);
+                int[][] decisionTable = utils.decisionTable(numItems, weightArr, valueArr, capacity,knapsackButtomUp);
                 int tableReferences = buttomUp.getTableReferences();
                 int optimalValue = buttomUp.getOptimalValue();
 
