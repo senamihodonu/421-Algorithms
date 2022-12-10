@@ -1,8 +1,9 @@
 import java.io.IOException;
 import java.util.ArrayList;
 /**
- * Program uses dynamic approache, buttom-up approach to solve 0-1 Knapsack 
+ * Program uses dynamic approach, buttom-up approach to solve 0-1 Knapsack 
  * problem
+ * @author Senami Hodonu
  */
 public class KnapsackBU{
 
@@ -53,7 +54,7 @@ public class KnapsackBU{
     }
 
     /**
-     * Memoization table
+     * Knapsack buttom up value table
      * @param n - items
      * @param w - weight
      * @param v - value
@@ -114,7 +115,6 @@ public class KnapsackBU{
                 int optimalValue = buttomUp.getOptimalValue();
 
                 utils.resultSet(utils.getOptimalSet(), capacity, optimalValue, tableReferences);
-                System.out.println();    
 
                 if(args.length ==5 && Integer.valueOf(args[4]) == 1){
                     //print to file

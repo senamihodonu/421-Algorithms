@@ -1,6 +1,10 @@
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * Program uses dynamic approach, top-down approach to solve 0-1 Knapsack 
+ * problem
+ * @author Senami Hodonu
+ */
 public class KnapsackTD{
 
     private int[][] decisionTable;
@@ -8,6 +12,9 @@ public class KnapsackTD{
     private ArrayList<Integer> optimalSet;
     private int tableReferences;
     
+    /**
+     * Basic constructor
+     */
     public KnapsackTD(){
         optimalValue = 0;
         tableReferences = 0;
@@ -38,15 +45,15 @@ public class KnapsackTD{
     }
 
     /**
-    * Return 
+    * Return decistion table
     * @return
     */
     public int[][] getDecisionTable(){
         return decisionTable;
     }
 
-/**
-     * 
+    /**
+     * Recursive function to solve Knapsack problem
      * @param item
      * @param weight
      * @param value
@@ -67,10 +74,18 @@ public class KnapsackTD{
         if(weight[item-1] > Capacity){
             return valueTable[item][Capacity] = topDownRecursive(item-1, weight, value, Capacity, valueTable);
         } else 
-            // tdRef=tdRef+3;
+
             return valueTable[item][Capacity] = Math.max(value[item-1] + topDownRecursive(item-1, weight, value, Capacity-weight[item-1], valueTable), topDownRecursive(item-1, weight, value, Capacity, valueTable)); 
     }
 
+    /**
+     * Knapsack top down value table
+     * @param item
+     * @param weight
+     * @param value
+     * @param Capacity
+     * @return
+     */
     public int[][] knapsackTD_VTable(int item, int[] weight, int[] value, int Capacity){
         int valueTable[][] = new int[item + 1][Capacity + 1];
         for(int i = 0; i < item + 1; i++)  
@@ -105,13 +120,12 @@ public class KnapsackTD{
                 int tableReferences = td.getTableReferences();
                 int optimalValue = td.getOptimalValue();
 
-                utils.resultSet(utils.getOptimalSet(), capacity, optimalValue, tableReferences);
-                System.out.println();    
+                utils.resultSet(utils.getOptimalSet(), capacity, optimalValue, tableReferences); 
 
                 if(args.length == 5 && Integer.valueOf(args[4]) == 1){
                     //print to file
-                    utils.write2File("KnapsackBU-DTable", utils.print2D(decisionTable));
-                    utils.write2File("KnapsackBU-VTable", utils.print2D(valueTable));
+                    utils.write2File("KnapsackTD-DTable", utils.print2D(decisionTable));
+                    utils.write2File("KnapsackTD-VTable", utils.print2D(valueTable));
                 } 
 
             } catch (IOException e) {
