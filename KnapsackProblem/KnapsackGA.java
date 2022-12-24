@@ -67,7 +67,8 @@ public class KnapsackGA {
         return optimalSet;
     }
 
-    public static void main(String[] args) { 
+    public static void main(String[] args) {
+        System.out.println("Greedy Approach");
         KnapsackGA ga = new KnapsackGA();
         Utils utils = new Utils();
         int numItems = Integer.valueOf(args[0]);

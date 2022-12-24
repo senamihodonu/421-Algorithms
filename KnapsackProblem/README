@@ -1,48 +1,46 @@
 ## Overview
-The goal of this project was to implement a java program that models a deterministic
-finite automation. For this project, the DFAState and DFA classes were implemented.
-The DFAState class creates the states and the accompanying transitions. The DFA 
-class creates a new DFA from the given input out of DFAState objects,as well as 
-checking whether a string is accepted by the machine.
-
-## Reflection
-
-The most significant aspects that contributed to the successful implemention of this 
-project were understanding the most appropriate data structure to use to store data 
-and the extensive testing with different test cases. There were no major challenges
-or issues in the course of completing this program beyond some minor bugs.
-
-One of the minor bugs that was encountered was around the use of the HashSet data 
-structure to store the states, final states and the alphabets. Though the data 
-structure technically worked in the implemetation, the toString() method revealed 
-that the states and symbols were not displayed in the same order they were read 
-from the file. To fix this bug, the HashSet data structure was replaced with the
-LinkedHashSet and this resolved the bug.
+The goal of this project is to use two dynamic programming approaches, top-down+memoization
+and bottom-up methods and greedy algorithm to solve one optimization problem. For comparison 
+purposes, the program print out the number of recursive calls for the top-down+memoization 
+approach and the number of table references for the bottom-up approach.
 
 ## Manifest
+Project contains the following files:
 
-Project contains the following files. The DFA.java and the DFAState.java class where
-the only ones implemented and thereby the only one required for submission.
-
+.
+├── KnapsackBU.java
+├── KnapsackGA.java
+├── KnapsackTD.java
+├── Makefile
+├── README
+├── run_test
+├── tests
+│   ├── v1.txt
+│   ├── v.txt
+│   ├── w1.txt
+│   └── w.txt
+├── UML_diagram.pdf
+└── Utils.java
 
 ## Compiling and Using
-To compile fa.daf.DFADriver from the top directory:
+To compile from the top directory:
 
-$ javac fa/dfa/DFADriver.java
+$ javac *.java
 
 or
 
 $ make
 
-After a successful build, the following command is issued to run fa.dfa.DFADriver:
+After a successful build, the following command is issued to run program:
+buttom-up
+$ java KnapsackBU <n> <W> <w.txt> <v.txt> [<debug_level>]
 
-$ java fa.dfa.DFADriver <test file>
+top-down
+$ java KnapsackTD <n> <W> <w.txt> <v.txt> [<debug_level>]
 
-or 
+greedy
+$ java KnapsackGA <n> <W> <w.txt> <v.txt> 
 
-$ ./run <test file>
-
-(test file: eg ./tests/p1tc1.txt)
 
 To clean the directory, issue the following command from the top directory:
 
@@ -50,9 +48,13 @@ $ make clean
 
 ## Testing
 Below are some of the valid DFA tested with the program:
+├── tests
+│   ├── v1.txt
+│   ├── v.txt
+│   ├── w1.txt
+│   └── w.txt
 
 ## Sources used
-
 https://docs.oracle.com/javase/7/docs/api/java/util/LinkedHashSet.html
 https://www.geeksforgeeks.org/linkedhashset-in-java-with-examples/#:~:text=The%20LinkedHashSet%20is%20an%20ordered,maintained%20this%20class%20is%20used.
 https://www.geeksforgeeks.org/java-program-to-write-into-a-file/

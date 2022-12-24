@@ -8,11 +8,16 @@ echo "*************************************"
 echo "*************************************"
 echo
 
-echo "java KnapsackBU 17 50 ./tests/w.txt ./tests/v.txt 1"
-java KnapsackBU 17 50 ./tests/w.txt ./tests/v.txt 1
+echo "java KnapsackBU 17 50 ./tests/w.txt ./tests/v.txt"
+java KnapsackBU 17 50 ./tests/w.txt ./tests/v.txt
 
 echo
 
-echo "java KnapsackTD 17 50 ./tests/w.txt ./tests/v.txt 1"
-java KnapsackTD 17 50 ./tests/w.txt ./tests/v.txt 1
+echo "java KnapsackTD 17 50 ./tests/w.txt ./tests/v.txt"
+java KnapsackTD 17 50 ./tests/w.txt ./tests/v.txt
+
+echo
+
+echo "java KnapsackGA 17 50 ./tests/w.txt ./tests/v.txt"
+java KnapsackGA 17 50 ./tests/w.txt ./tests/v.txt
 
